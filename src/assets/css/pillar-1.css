@@ -10683,14 +10683,34 @@ a.theme-btn-on-bg:active,
 }
 
 @media (max-width: 767.98px) {
-  .resume-wrapper {
-    padding-top: 0;
-  }
   .resume-header {
     height: auto;
   }
   .resume-header .picture {
     width: 120px;
     border-radius: 4px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .primary-info .name {
+    font-size: 1rem;
+    letter-spacing: 0.075rem;
+  }
+  .primary-info .title,
+  .resume-section-content p,
+  .resume-company-name {
+    font-size: 0.7rem;
+  }
+
+  .primary-info li,
+  .secondary-info li,
+  .resume-position-time,
+  .resume-timeline-item-desc {
+    font-size: 0.65rem;
+  }
+
+  .resume-position-title {
+    font-size: 0.925rem;
   }
 }
