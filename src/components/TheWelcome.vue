@@ -115,7 +115,7 @@
             </section>
             <!--//summary-section-->
             <div class="row">
-              <div class="col-lg-9">
+              <div class="col-9">
                 <section class="resume-section experience-section mb-3 mb-xl-5">
                   <h2
                     class="resume-section-title text-uppercase font-weight-bold pb-lg-3 mb-lg-3"
@@ -224,7 +224,7 @@
                 </section>
                 <!--//experience-section-->
               </div>
-              <div class="col-lg-3">
+              <div class="col-3">
                 <section class="resume-section skills-section mb-3 mb-xl-4">
                   <h2
                     class="resume-section-title text-uppercase font-weight-bold pb-lg-3 mb-lg-3"
@@ -236,13 +236,8 @@
                       <!-- <h4 class="resume-skills-cat font-weight-bold">
                         Frontend
                       </h4> -->
-                      <ul
-                        class="list-unstyled mb-4 row d-lg-block justify-content-between"
-                      >
-                        <li
-                          class="mb-2 col-6 col-lg-12"
-                          v-for="skill in resumeData?.skills"
-                        >
+                      <ul class="list-unstyled mb-4">
+                        <li class="mb-2" v-for="skill in resumeData?.skills">
                           <div class="resume-skill-name">{{ skill.tool }}</div>
                           <div class="progress resume-progress">
                             <div

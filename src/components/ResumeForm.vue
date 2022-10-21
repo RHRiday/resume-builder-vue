@@ -628,15 +628,25 @@ export default {
       this.form.img = URL.createObjectURL(e.target.files[0]);
       this.sendFormData();
     },
+    getFormat() {
+      if (screen.width < 1200) {
+        return [750, 1200];
+      } else {
+        return [1000, 1500];
+      }
+    },
     exportPdf() {
       html2pdf()
         .set({
-          filename: "CV.pdf",
           html2canvas: { y: 30 },
-          jsPDF: { unit: "px", format: [1000, 1500] },
+          jsPDF: { unit: "px", format: this.getFormat() },
         })
         .from(document.getElementById("convertToPdf"))
-        .save();
+        .toPdf()
+        .get("pdf")
+        .then(function (pdf) {
+          window.open(pdf.output("bloburl"), "_blank");
+        });
     },
   },
   updated() {
