@@ -39,21 +39,25 @@ Created using Vuejs.
 
 ## Changelog
 
+### v1.3.0 | 25-10-2022 | **Live**
+
+- added [TrixEditor](https://trix-editor.org) in the experience description property.
+
 ### v1.2.1 | 21-10-2022
 
 - minor ui fixes on mobile view
 - bug fixes on pdf generator
 
-### v1.2 | 20-10-2022 | **Live**
+### v1.2.0 | 20-10-2022
 
 - added mobile view for pillar theme.
 
-### v1.1 | 19-10-2022
+### v1.1.0 | 19-10-2022
 
 - added demo data.
 - bug fixes.
 
-### v1.0 | 19-10-2022
+### v1.0.0 | 19-10-2022
 
 - initialized project.
 - added [pillar](https://github.com/xriley/pillar-theme) theme.

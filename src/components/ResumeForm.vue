@@ -234,11 +234,17 @@
                             <i class="fas fa-trophy text-muted"></i>
                           </span>
                         </div>
-                        <textarea
-                          placeholder="Description"
-                          class="form-control bg-white border-start-0 border-md"
-                          v-model="form.experiences[index].desc"
-                        ></textarea>
+                        <div class="form-control border-start-0 border-md">
+                          <input
+                            class="trixInput"
+                            :data-index="index"
+                            :id="'exp' + index"
+                            type="hidden"
+                          />
+                          <trix-editor
+                            :input="'exp' + index"
+                          ></trix-editor>
+                        </div>
                       </div>
                       <div class="input-group mb-1">
                         <div class="input-group-prepend">
@@ -650,6 +656,10 @@ export default {
     },
   },
   updated() {
+    document.querySelectorAll(".trixInput").forEach((el) => {
+      let index = Number(el.getAttribute('data-index'));
+      this.form.experiences[index].desc = el.value;
+    });
     this.sendFormData();
   },
 };

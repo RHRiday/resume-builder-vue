@@ -10691,7 +10691,7 @@ a.theme-btn-on-bg:active,
     border-radius: 4px;
   }
 }
-
+/* 
 @media (max-width: 1200px) {
   .primary-info .name {
     font-size: 1rem;
@@ -10713,4 +10713,4 @@ a.theme-btn-on-bg:active,
   .resume-position-title {
     font-size: 0.925rem;
   }
-}
+} */

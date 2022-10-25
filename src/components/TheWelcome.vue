@@ -147,9 +147,7 @@
                         </div>
                         <!--//resume-timeline-item-header-->
                         <div class="resume-timeline-item-desc">
-                          <p>
-                            {{ exp.desc }}
-                          </p>
+                          <p v-html="exp.desc" class="trix-content"></p>
                           <!-- <div>
                             <h4
                               class="resume-timeline-item-desc-heading font-weight-bold"
@@ -361,46 +359,28 @@ export default {
         {
           title: "Software Engineer (Fullstack)",
           company: "Panacea PLT",
-          desc: `• Designed front-end, developed APIs and hosted web applications in the
-    required environment according to client needs.
-    • Implemented special features to satisfy clients’ every day usage and easy to
-    handle functionalities.
-    • Had meetings with team and clients to ensure best project managing criteria
-    are met while developing projects`,
+          desc: `<ul><li>Designed front-end, developed APIs and hosted web applications in the required environment according to client needs.</li><li>Implemented special features to satisfy clients’ every day usage and easy to handle functionalities.</li><li>Had meetings with team and clients to ensure best project managing criteria are met while developing projects</li></ul>`,
           startDate: "2021-09-12",
           endDate: "Present",
         },
         {
           title: "Jr. Web Developer",
           company: "Zorg IT Group",
-          desc: `• Designed front-end, developed APIs and hosted web applications in the
-    required environment according to client needs.
-    • Implemented special features to satisfy clients’ every day usage and easy to
-    handle functionalities.
-    • Had meetings with team and clients to ensure best project managing criteria
-    are met while developing projects.`,
+          desc: `<ul><li>Designed front-end, developed APIs and hosted web applications in the required environment according to client needs.</li><li>Implemented special features to satisfy clients’ every day usage and easy to handle functionalities.</li><li>Had meetings with team and clients to ensure best project managing criteria are met while developing projects</li></ul>`,
           startDate: "2021-08-02",
           endDate: "2021-08-30",
         },
         {
           title: "Laravel Developer (Intern)",
           company: "PONDITs",
-          desc: `• Worked on projects using Laravel knowledge gained in classes to fix bugs
-    and achieved development recognition by designing and implementing
-    special project during internship.`,
+          desc: `<ul><li>Worked on projects using Laravel knowledge gained in classes to fix bugs and achieved development recognition by designing and implementing special project during internship.</li></ul>`,
           startDate: "2021-08-02",
           endDate: "2021-08-30",
         },
         {
           title: "Tams Agency",
           company: "Project",
-          desc: `• Integrated b2b portal among Airline companies with their APIs to cross-connect
-    both businesses.
-    • Worked on building REST APIs and took part as project manager. Also held meetings
-    with client and front-end team on a regular basis.
-    • Built special features according to clients’ needs such as admin, agent, sub-agent
-    separate authorization; ticket booking, generating tickets, managing loans and payments,
-    quick import/export in csv/pdf, admin control over all transactions etc.`,
+          desc: `<ul><li>Integrated b2b portal among Airline companies with their APIs to cross-connect both businesses.</li><li>Worked on building REST APIs and took part as project manager. Also held meetings with client and front-end team on a regular basis.</li><li>Built special features according to clients’ needs such as admin, agent, sub-agent separate authorization; ticket booking, generating tickets, managing loans and payments, quick import/export in csv/pdf, admin control over all transactions etc.</li></ul>`,
           startDate: "2022-02-05",
           endDate: "2022-07-30",
         },
