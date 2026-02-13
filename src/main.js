@@ -1,10 +1,9 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import router from "./router";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import router from "./plugins/router";
+import "./plugins/FontAwesome";
 
-// import "./assets/main.css";
-
-import "./assets/bootstrap.min.js";
-import "./assets/fontawesome/js/all.min.js";
-
-createApp(App).use(router).mount("#app");
+createApp(App).use(router).component("fa-icon", FontAwesomeIcon).mount("#app");

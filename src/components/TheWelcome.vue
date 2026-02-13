@@ -1,306 +1,190 @@
 <template>
-  <div class="row justify-content-between">
-    <div class="col-xl-4 resume-wrapper">
-      <ResumeForm @data="getFormData" />
-    </div>
-    <div class="col-xl-8">
-      <article
-        class="resume-wrapper text-right position-relative"
-        id="convertToPdf"
-      >
-        <div class="resume-wrapper-inner mx-auto text-start bg-white shadow-lg">
-          <header class="resume-header pt-4 pt-md-0">
-            <div class="row">
-              <div
-                class="col-4 col-xl-auto resume-picture-holder text-center text-xl-start"
-              >
-                <img
-                  class="picture"
-                  :src="resumeData?.img || './src/assets/images/profile.jpg'"
-                  alt=""
-                />
-              </div>
-              <!--//col-->
-              <div class="col">
-                <div class="row p-xl-4 justify-content-between">
-                  <div class="primary-info col-7 col-xl-auto">
-                    <h1
-                      class="name mt-0 mb-1 text-white text-uppercase text-uppercase"
-                    >
+  <div class="px-2">
+    <div class="row">
+      <div class="col-xl-4" :class="{ 'resume-wrapper': !showPreview }">
+        <ResumeForm @changedInData="getFormData" v-if="!showPreview" />
+        <div class="text-center my-2 d-none d-lg-block">
+          <button class="btn btn-primary btn-lg" @click="exportPdf">
+            Download pdf
+          </button>
+        </div>
+        <div class="text-center d-lg-none my-2">
+          <button class="btn btn-info btn-lg" @click="switchPreview" v-if="!showPreview">
+            {{ showPreview ? 'Hide' : 'Show' }} Preview
+          </button>
+        </div>
+      </div>
+      <div class="col-xl-8 my-4" :class="[showPreview ? 'd-inline' : 'd-none d-lg-inline']">
+        <article class="position-relative" id="convertToPdf">
+          <div class="resume-wrapper-inner mx-auto text-start bg-white shadow-lg">
+            <header class="resume-header">
+              <div class="row">
+                <div class="col-3 resume-picture-holder text-center text-xl-start">
+                  <img class="picture" :src="resumeData?.img || './src/assets/images/profile.jpg'" alt="" />
+                </div>
+                <div class="col row py-4">
+                  <div class="col-8">
+                    <h1 class="name mt-0 mb-1 text-white text-uppercase text-uppercase">
                       {{ resumeData?.fullName || "Name" }}
                     </h1>
                     <div class="title my-1">
                       {{ resumeData?.title || "Title" }}
                     </div>
-                    <ul
-                      class="list-unstyled d-flex flex-column justify-content-between"
-                    >
+                    <ul class="list-unstyled d-flex flex-column justify-content-between">
                       <li class="my-1">
-                        <a
-                          class="text-link"
-                          :href="'mailto:' + resumeData?.email || 'Email'"
-                          ><i
-                            class="far fa-envelope fa-fw me-2"
-                            data-fa-transform="grow-3"
-                          ></i>
+                        <a class="text-link" :href="'mailto:' + resumeData?.email || 'Email'">
+                          <fa-icon icon="envelope" class="fa-fw me-2" />
                           {{ resumeData?.email || "Email" }}
                         </a>
                       </li>
                       <li class="my-1">
-                        <a
-                          class="text-link"
-                          :href="
-                            'tel:' + resumeData?.phone || '+880-1234567890'
-                          "
-                          ><i
-                            class="fas fa-mobile-alt fa-fw me-2"
-                            data-fa-transform="grow-6"
-                          ></i
-                          >+880
-                          {{ resumeData?.phone || "1234567890" }}
+                        <a class="text-link" :href="'tel:' + resumeData?.phone || '+880-1234567890'">
+                          <fa-icon icon="mobile-alt" class="fa-fw me-2" />
+                          +880{{ resumeData?.phone || "1234567890" }}
                         </a>
                       </li>
                       <li class="my-1">
-                        <a
-                          class="text-link"
-                          target="_blank"
-                          :href="
-                            'https://google.com/search?q=' +
-                            resumeData?.location
-                          "
-                          ><i
-                            class="fas fa-map-marker-alt fa-fw me-2"
-                            data-fa-transform="grow-6"
-                          ></i>
+                        <a class="text-link" target="_blank"
+                          :href="'https://google.com/search?q=' + resumeData?.location">
+                          <fa-icon icon="map-marker-alt" class="fa-fw me-2" />
                           {{ resumeData?.location || "Current address" }}
                         </a>
                       </li>
                     </ul>
                   </div>
                   <!--//primary-info-->
-                  <div class="secondary-info col-5 col-xl-auto mt-2">
+                  <div class="secondary-info col-4 mt-2">
                     <ul class="resume-social list-unstyled">
                       <li class="mb-3" v-for="site in resumeData.websites">
-                        <a class="text-link" :href="site" target="_blank"
-                          ><span
-                            class="fa-container text-center me-2 d-none d-xl-inline-block"
-                            ><i
-                              :class="getIcon(site) + ' text-muted fa-fw'"
-                            ></i></span
-                          >{{ site }}</a
-                        >
+                        <a class="text-link" style="font-size: 1rem;" :href="site" target="_blank">
+                          <fa-icon :icon="getIcon(site)" class="me-2 text-white" />
+                          {{ breakDownWebsite(site) }}
+                        </a>
                       </li>
                     </ul>
                   </div>
                   <!--//websites-->
+
+                  <!--//row-->
                 </div>
-                <!--//row-->
+                <!--//col-->
               </div>
-              <!--//col-->
-            </div>
-            <!--//row-->
-          </header>
-          <div class="resume-body p-3 p-lg-5">
-            <section class="resume-section summary-section mb-3 mb-xl-5">
-              <h2
-                class="resume-section-title text-uppercase font-weight-bold pb-lg-3 mb-lg-3"
-              >
-                Career Summary
-              </h2>
-              <div class="resume-section-content">
-                <p class="mb-0">
-                  {{ resumeData?.summary || "Summarise your career here." }}
-                </p>
-              </div>
-            </section>
-            <!--//summary-section-->
-            <div class="row">
-              <div class="col-9">
-                <section class="resume-section experience-section mb-3 mb-xl-5">
-                  <h2
-                    class="resume-section-title text-uppercase font-weight-bold pb-lg-3 mb-lg-3"
-                  >
-                    Work Experience
-                  </h2>
-                  <div class="resume-section-content">
-                    <div class="resume-timeline position-relative">
-                      <article
-                        v-for="exp in resumeData?.experiences"
-                        class="resume-timeline-item position-relative pb-2"
-                      >
-                        <div class="resume-timeline-item-header mb-2">
-                          <div class="d-flex">
-                            <h3
-                              class="resume-position-title font-weight-bold mb-1"
-                            >
-                              {{ exp.title }}
-                            </h3>
-                            <div class="resume-company-name ms-auto">
-                              {{ exp.company }}
+            </header>
+            <div class="resume-body p-3 p-lg-5">
+              <section class="resume-section summary-section mb-3 mb-xl-5">
+                <h2 class="resume-section-title text-uppercase font-weight-bold pb-lg-3 mb-lg-3">
+                  Career Summary
+                </h2>
+                <div class="resume-section-content">
+                  <p class="mb-0">
+                    {{ resumeData?.summary || "Summarise your career here." }}
+                  </p>
+                </div>
+              </section>
+              <!--//summary-section-->
+              <div class="row">
+                <div class="col-9">
+                  <section class="resume-section experience-section mb-3 mb-xl-5">
+                    <h2 class="resume-section-title text-uppercase font-weight-bold pb-lg-3 mb-lg-3">
+                      Work Experience
+                    </h2>
+                    <div class="resume-section-content">
+                      <div class="resume-timeline position-relative">
+                        <article v-for="exp in resumeData?.experiences"
+                          class="resume-timeline-item position-relative pb-2">
+                          <div class="resume-timeline-item-header mb-2">
+                            <div class="d-flex">
+                              <h3 class="resume-position-title font-weight-bold mb-1">
+                                {{ exp.title }}
+                              </h3>
+                              <div class="resume-company-name ms-auto">
+                                {{ exp.company }}
+                              </div>
+                            </div>
+                            <!--//row-->
+                            <div class="resume-position-time">
+                              {{ convertDate(exp.startDate) }} —
+                              {{ convertDate(exp.endDate) }}
                             </div>
                           </div>
-                          <!--//row-->
-                          <div class="resume-position-time">
-                            {{ convertDate(exp.startDate) }} —
-                            {{ convertDate(exp.endDate) }}
+                          <!--//resume-timeline-item-header-->
+                          <div class="resume-timeline-item-desc">
+                            <p v-html="exp.desc" class="trix-content"></p>
                           </div>
-                        </div>
-                        <!--//resume-timeline-item-header-->
-                        <div class="resume-timeline-item-desc">
-                          <p v-html="exp.desc" class="trix-content"></p>
-                          <!-- <div>
-                            <h4
-                              class="resume-timeline-item-desc-heading font-weight-bold"
-                            >
-                              Achievements:
-                            </h4>
-                            <p>
-                              Praesentium voluptatum deleniti atque corrupti
-                              quos dolores et quas molestias excepturi sint
-                              occaecati cupiditate non provident.
-                            </p>
-                            <ul>
-                              <li>
-                                Lorem ipsum dolor sit amet, 80% consectetuer
-                                adipiscing elit.
-                              </li>
-                              <li>
-                                At vero eos et accusamus et iusto odio
-                                dignissimos.
-                              </li>
-                              <li>
-                                Blanditiis praesentium voluptatum deleniti atque
-                                corrupti.
-                              </li>
-                              <li>Maecenas tempus tellus eget.</li>
-                            </ul>
-                            <h4
-                              class="resume-timeline-item-desc-heading font-weight-bold"
-                            >
-                              Technologies used:
-                            </h4>
-                            <ul class="list-inline">
-                              <li class="list-inline-item">
-                                <span class="badge bg-secondary badge-pill"
-                                  >Angular</span
-                                >
-                              </li>
-                              <li class="list-inline-item">
-                                <span class="badge bg-secondary badge-pill"
-                                  >Python</span
-                                >
-                              </li>
-                              <li class="list-inline-item">
-                                <span class="badge bg-secondary badge-pill"
-                                  >jQuery</span
-                                >
-                              </li>
-                              <li class="list-inline-item">
-                                <span class="badge bg-secondary badge-pill"
-                                  >Webpack</span
-                                >
-                              </li>
-                              <li class="list-inline-item">
-                                <span class="badge bg-secondary badge-pill"
-                                  >HTML/SASS</span
-                                >
-                              </li>
-                              <li class="list-inline-item">
-                                <span class="badge bg-secondary badge-pill"
-                                  >PostgresSQL</span
-                                >
-                              </li>
-                            </ul>
-                          </div> -->
-                        </div>
-                        <!--//resume-timeline-item-desc-->
-                      </article>
-                      <!--//resume-timeline-item-->
+                          <!--//resume-timeline-item-desc-->
+                        </article>
+                        <!--//resume-timeline-item-->
+                      </div>
+                      <!--//resume-timeline-->
                     </div>
-                    <!--//resume-timeline-->
-                  </div>
-                </section>
-                <!--//experience-section-->
-              </div>
-              <div class="col-3">
-                <section class="resume-section skills-section mb-3 mb-xl-4">
-                  <h2
-                    class="resume-section-title text-uppercase font-weight-bold pb-lg-3 mb-lg-3"
-                  >
-                    Skills &amp; Tools
-                  </h2>
-                  <div class="resume-section-content">
-                    <div class="resume-skill-item">
-                      <!-- <h4 class="resume-skills-cat font-weight-bold">
+                  </section>
+                  <!--//experience-section-->
+                </div>
+                <div class="col-3">
+                  <section class="resume-section skills-section mb-3 mb-xl-4">
+                    <h2 class="resume-section-title text-uppercase font-weight-bold pb-lg-3 mb-lg-3">
+                      Skills &amp; Tools
+                    </h2>
+                    <div class="resume-section-content">
+                      <div class="resume-skill-item">
+                        <!-- <h4 class="resume-skills-cat font-weight-bold">
                         Frontend
                       </h4> -->
-                      <ul class="list-unstyled mb-4">
-                        <li class="mb-2" v-for="skill in resumeData?.skills">
-                          <div class="resume-skill-name">{{ skill.tool }}</div>
-                          <div class="progress resume-progress">
-                            <div
-                              class="progress-bar theme-progress-bar-dark"
-                              role="progressbar"
-                              :style="`width: ${skill.area}%`"
-                            ></div>
+                        <ul class="list-unstyled mb-4">
+                          <li class="mb-2" v-for="skill in resumeData?.skills">
+                            <div class="resume-skill-name">{{ skill.tool }}</div>
+                            <div class="progress resume-progress">
+                              <div class="progress-bar theme-progress-bar-dark" role="progressbar"
+                                :style="`width: ${skill.area}%`"></div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      <!--//resume-skill-item-->
+                    </div>
+                    <!--resume-section-content-->
+                  </section>
+                  <!--//skills-section-->
+                  <section class="resume-section education-section mb-3 mb-xl-5">
+                    <h2 class="resume-section-title text-uppercase font-weight-bold pb-lg-3 mb-lg-3">
+                      Education
+                    </h2>
+                    <div class="resume-section-content">
+                      <ul class="list-unstyled">
+                        <li class="mb-2 ps-3 position-relative" v-for="edu in resumeData?.education">
+                          <fa-icon icon="school" class="position-absolute resume-icon" width="13px" />
+                          <div class="resume-degree font-weight-bold">
+                            {{ edu.degree }}
+                          </div>
+                          <div class="resume-degree-org">
+                            {{ edu.university }}
+                          </div>
+                          <div class="resume-degree-time">
+                            {{ convertDate(edu.batch) }} | Grade: {{ edu.grade }}
                           </div>
                         </li>
                       </ul>
                     </div>
-                    <!--//resume-skill-item-->
-                  </div>
-                  <!--resume-section-content-->
-                </section>
-                <!--//skills-section-->
-                <section class="resume-section education-section mb-3 mb-xl-5">
-                  <h2
-                    class="resume-section-title text-uppercase font-weight-bold pb-lg-3 mb-lg-3"
-                  >
-                    Education
-                  </h2>
-                  <div class="resume-section-content">
-                    <ul class="list-unstyled">
-                      <li class="mb-2" v-for="edu in resumeData?.education">
-                        <div class="resume-degree font-weight-bold">
-                          {{ edu.degree }}
-                        </div>
-                        <div class="resume-degree-org">
-                          {{ edu.school }}
-                        </div>
-                        <div class="resume-degree-time">
-                          {{ convertDate(edu.batch) }} | Grade: {{ edu.grade }}
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </section>
-                <!--//education-section-->
-                <section class="resume-section reference-section mb-3 mb-xl-5">
-                  <h2
-                    class="resume-section-title text-uppercase font-weight-bold pb-lg-3 mb-lg-3"
-                  >
-                    Awards & Certifications
-                  </h2>
-                  <div class="resume-section-content">
-                    <ul class="list-unstyled resume-awards-list">
-                      <li
-                        class="mb-2 ps-4 position-relative"
-                        v-for="award in resumeData?.awards"
-                      >
-                        <i
-                          class="resume-award-icon fas fa-trophy position-absolute"
-                          data-fa-transform="shrink-2"
-                        ></i>
-                        <div class="resume-award-name">{{ award.title }}</div>
-                        <div class="resume-award-desc">
-                          {{ award.school }}
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </section>
-                <!--//language-section-->
-                <!-- <section class="resume-section interests-section mb-5">
+                  </section>
+                  <!--//education-section-->
+                  <section class="resume-section reference-section mb-3 mb-xl-5">
+                    <h2 class="resume-section-title text-uppercase font-weight-bold pb-lg-3 mb-lg-3">
+                      Awards & Certifications
+                    </h2>
+                    <div class="resume-section-content">
+                      <ul class="list-unstyled resume-awards-list">
+                        <li class="mb-2 ps-4 position-relative" v-for="award in resumeData?.awards">
+                          <fa-icon icon="trophy" class="position-absolute resume-icon" />
+                          <div class="resume-award-name">{{ award.title }}</div>
+                          <div class="resume-award-desc">
+                            {{ award.school }}
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </section>
+                  <!--//language-section-->
+                  <!-- <section class="resume-section interests-section mb-5">
                   <h2
                     class="resume-section-title text-uppercase font-weight-bold pb-3 mb-3"
                   >
@@ -314,26 +198,39 @@
                     </ul>
                   </div>
                 </section> -->
-                <!--//interests-section-->
+                  <!--//interests-section-->
+                </div>
               </div>
+              <!--//row-->
             </div>
-            <!--//row-->
+            <!--//resume-body-->
           </div>
-          <!--//resume-body-->
+        </article>
+        <div class="text-center mt-5" :class="[!showPreview ? 'd-none' : 'd-block']">
+          <button class="btn btn-primary btn-lg preview-large-button" @click="exportPdf">
+            Download pdf
+          </button>
         </div>
-      </article>
+        <div class="text-center d-lg-none my-4 my-md-2" :class="[!showPreview ? 'd-none' : 'd-block']">
+          <button class="btn btn-info btn-lg preview-large-button" @click="switchPreview">
+            {{ showPreview ? 'Hide' : 'Show' }} Preview
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import ResumeForm from "./ResumeForm.vue";
+import html2pdf from "html2pdf.js";
 export default {
   components: {
     ResumeForm,
   },
   data() {
     return {
+      showPreview: false,
       resumeData: {},
     };
   },
@@ -345,13 +242,13 @@ export default {
       phone: "1521401417",
       img: "",
       location: "Halishahar, Khan Bari, Chattogram 4216.",
-      summary: `A self-taught web developer with 3 years of personal experience and 1 year of
-    professional experience working with web technologies. I have worked in 8+
-    professional projects as well as 20+ personal projects with technologies such as
-    php/laravel, node.js/angular/react.js using MVC architecture. I have also worked with
-    APIs professionally to build customized ERP/CRM/LMS based applications.`,
+      summary: `A self-taught web developer with 3 years of personal experience and 1 year of 
+        professional experience working with web technologies. I have worked in 8+
+        professional projects as well as 20+ personal projects with technologies such as
+        php/laravel, node.js/angular/react.js using MVC architecture. I have also worked with
+        APIs professionally to build customized ERP/CRM/LMS based applications.`,
       websites: [
-        "https://rhriday.github.io/",
+        "https://rhriday.github.io/ab",
         "https://github.com/RHRiday",
         "https://linkedin.com/in/rhriday",
       ],
@@ -452,16 +349,27 @@ export default {
       this.resumeData = data;
     },
     getIcon(str) {
-      if (str.includes("linkedin")) {
-        return "fab fa-linkedin-in";
-      } else if (str.includes("github")) {
-        return "fab fa-github";
-      } else if (str.includes("facebook")) {
-        return "fab fa-facebook";
-      } else if (str.includes("twitter")) {
-        return "fab fa-twitter";
+      if (str.includes("linkedin.com")) {
+        return ['fab', "linkedin"];
+      } else if (str.includes("github.com")) {
+        return ['fab', "github"];
+      } else if (str.includes("facebook.com") || str.includes("fb.com")) {
+        return ['fab', "facebook"];
+      } else if (str.includes("x.com")) {
+        return ['fab', "x-twitter"];
       } else {
-        return "fas fa-globe";
+        return "globe";
+      }
+    },
+    breakDownWebsite(str) {
+      if (str.includes("linkedin.com") || str.includes("github.com") || str.includes("facebook.com") || str.includes("fb.com") || str.includes("x.com")) {
+        const splittedString = str.split('/');
+        const lastString = splittedString[splittedString.length - 1];
+        return '/' + lastString;
+      } else if (str.length > 28) {
+        return "Website";
+      } else {
+        return str;
       }
     },
     convertDate(date) {
@@ -471,8 +379,47 @@ export default {
       let d = new Date(date);
       return d.getMonth() + 1 + "/" + d.getFullYear();
     },
+    switchPreview() {
+      this.showPreview = !this.showPreview;
+      const meta = document.querySelector('meta[name="viewport"]');
+      if (meta) {
+        if (this.showPreview) {
+          meta.setAttribute('content', 'width=991');
+        } else {
+          meta.setAttribute('content', 'width=device-width, initial-scale=1.0');
+        }
+      }
+    },
+    exportPdf() {
+      html2pdf()
+        .set({
+          jsPDF: { unit: "px", format: [1000, 1500] },
+        })
+        .from(document.getElementById("convertToPdf"))
+        .toPdf()
+        .get("pdf")
+        .then(function (pdf) {
+          window.open(pdf.output("bloburl"), "_blank");
+        });
+    },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+@import url('./../assets/css/pillar.css');
+
+.preview-large-button {
+  font-size: 3.25rem;
+  border-radius: 1.25rem;
+  padding: 1.2rem 3.6rem;
+}
+
+@media (min-width: 576px) and (max-width: 990px) {
+  .preview-large-button {
+    font-size: 1rem;
+    border-radius: 0.75rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+</style>
