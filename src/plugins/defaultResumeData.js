@@ -1,9 +1,10 @@
+import defaultProfileImg from '@/assets/images/profile.jpg'
 export const defaultResume = {
   fullName: "Rifat Hossen Riday",
   title: "Software Engineer",
   email: "riffatriday@gmail.com",
   phone: "1521401417",
-  img: "",
+  img: defaultProfileImg,
   location: "Halishahar, Khan Bari, Chattogram 4216.",
   summary: `A self-taught web developer with 3 years of personal experience and 1 year of 
         professional experience working with web technologies. I have worked in 8+

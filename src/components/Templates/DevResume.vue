@@ -34,9 +34,9 @@
         <hr>
         <div class="resume-intro">
             <div class="row align-items-center">
-                <div class="col-12 col-md-3 col-xl-2 text-center">
+                <div class="col-2 text-center">
                     <img class="resume-profile-image mb-3 mb-md-0 me-md-5  ms-md-0 rounded mx-auto"
-                        :src="resumeData?.img || './../../src/assets/images/profile.jpg'" alt="Candidate image">
+                        :src="resumeData?.img" alt="Candidate image">
                 </div>
 
                 <div class="col text-start">

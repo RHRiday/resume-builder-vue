@@ -38,13 +38,15 @@ Created using Vuejs.
 
 ## Changelog
 
-### v2.1.21 | 14-02-2026 | **Live**
+### v2.3.13 | 14-02-2026 | **Live**
 
+- android release : can be downloaded at [RHResume.apk](https://drive.google.com/file/d/10KiMwkyZ-tYdT_IufW-gqGdfgoh3fXf7/view?usp=sharing)
 - major UI changes
 - added Home page
 - added hobbies section
 - added two templates
 - added dev-resume theme
+- deployed gh-pages
 
 ### v1.3.0 | 25-10-2022
 

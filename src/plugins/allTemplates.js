@@ -1,3 +1,4 @@
+import devResumeImage from "@/assets/images/dev-resume.jpg";
 export const templates = [
   {
     title: "Pillar",
@@ -11,6 +12,6 @@ export const templates = [
     component: "DevResumeTemplate",
     wrapper: "DevResume",
     desc: "Simple yet professional look.",
-    bodyImg: "./../../src/assets/images/dev-resume.jpg",
+    bodyImg: devResumeImage,
   },
 ];

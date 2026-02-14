@@ -3,8 +3,7 @@
         <header class="resume-header">
             <div class="row">
                 <div class="col-3 resume-picture-holder text-center text-xl-start">
-                    <img class="picture" :src="resumeData?.img || './../../src/assets/images/profile.jpg'"
-                        alt="Candidate image" />
+                    <img class="picture" :src="resumeData?.img" alt="Candidate image" />
                 </div>
                 <div class="col row py-4">
                     <div class="col-8">
