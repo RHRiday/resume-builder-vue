@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row py-3 align-items-center">
-      <div class="mb-5 mb-md-0">
+      <div class="my-3 my-lg-2">
         <h3 class="text-center fw-bold">Create your own resume</h3>
       </div>
 
@@ -125,7 +125,7 @@
                     </span>
                     <div class="form-control border-start-0 border-md">
                       <input class="trixInput" :data-index="index" :id="'exp' + index" type="hidden" />
-                      <trix-editor :input="'exp' + index"></trix-editor>
+                      <trix-editor :input="'exp' + index" placeholder="Work details"></trix-editor>
                     </div>
                   </div>
                   <div class="input-group mb-1">
@@ -141,7 +141,7 @@
                     </span>
                     <input :id="'endDate_' + index" type="date" v-model="form.experiences[index].endDate"
                       class="form-control bg-white border-start-0 border-md" />
-                    <div class="form-check small mx-2 my-auto fw-light">
+                    <div class="form-check col-12 col-md-auto mt-2 small mx-2 my-auto fw-light">
                       <input @change="setEndDate($event, index)" class="form-check-input" type="checkbox"
                         :id="'currentWork_' + index" />
                       <label class="form-check-label fw-bold" v-bind:for="'currentWork_' + index">
@@ -274,14 +274,42 @@
             </div>
           </div>
         </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#interests">
+              Interest & Hobbies
+            </button>
+          </h2>
+          <div id="interests" class="accordion-collapse collapse">
+            <div class="accordion-body p-1">
+              <div class="border border-dark border-end-0 border-top-0 border-start-0 p-2 my-2"
+                :class="{ 'border-bottom-0': form.interests.length >= 1 && index == form.interests.length - 1 }"
+                v-for="(interest, index) in form.interests">
+                <div class="input-group">
+                  <div class="input-group mb-1">
+                    <span class="input-group-text bg-white px-3 border-md border-end-0">
+                      <fa-icon icon="running" class="text-muted" />
+                    </span>
+                    <input type="text" placeholder="Favorite activities" class="form-control bg-white border-start-0 border-md"
+                      v-model="form.interests[index]" />
+                  </div>
+                  <remove-btn v-if="form.interests.length > 1" title="Remove hobby"
+                    @remove-btn-clicked="reduceField('interests', index)" />
+                </div>
+              </div>
+              <add-more-btn title="Add hobbies" @add-btn-clicked="addField('interests')" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import AddMoreBtn from "./buttons/AddMoreBtn.vue";
-import RemoveBtn from "./buttons/RemoveBtn.vue";
+import AddMoreBtn from "./../components/buttons/AddMoreBtn.vue";
+import RemoveBtn from "./../components/buttons/RemoveBtn.vue";
 export default {
   components: { AddMoreBtn, RemoveBtn },
   data() {
@@ -324,6 +352,7 @@ export default {
             school: "",
           },
         ],
+        interests: [''],
       }
     };
   },

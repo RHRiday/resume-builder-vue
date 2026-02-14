@@ -11,6 +11,7 @@ import {
   faPercentage,
   faPhoneSquare,
   faPlusCircle,
+  faRunning,
   faSchool,
   faStarHalfAlt,
   faTools,
@@ -49,4 +50,5 @@ library.add(
   faGithub,
   faXTwitter,
   faLinkedin,
+  faRunning
 );

@@ -2,9 +2,7 @@
 
 Created using Vuejs.
 
-## Builds the following resume
-
-<img src="https://i.ibb.co/TqPfLRK/CV-1.jpg">
+## Builds with the following resume
 
 ## Current features
 
@@ -35,11 +33,20 @@ Created using Vuejs.
    - Awards and Certifications
      - Title
      - Institution
+   - Interests and Hobbies
 4. **Download as pdf**
 
 ## Changelog
 
-### v1.3.0 | 25-10-2022 | **Live**
+### v2.1.21 | 14-02-2026 | **Live**
+
+- major UI changes
+- added Home page
+- added hobbies section
+- added two templates
+- added dev-resume theme
+
+### v1.3.0 | 25-10-2022
 
 - added [TrixEditor](https://trix-editor.org) in the experience description property.
 
